@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <properties>
+        <property name="aaa" value="bbb"/>
+    </properties>
+
+    <settings>
+        <setting name="cacheEnabled" value="true"/>
+        <setting name="lazyLoadingEnabled" value="false"/>
+        <!--<setting name="logImpl" value="STDOUT_LOGGING"/> &lt;!&ndash; 打印日志信息 &ndash;&gt;-->
+    </settings>
+
+    <typeAliases>
+        <typeAlias type="com.test.mybatis.dao.UserDao" alias="User"/>
+    </typeAliases>
+    
+    <typeHandlers>
+        <package name=""/>
+    </typeHandlers>
+
+    <objectFactory type="">
+        <property name="" value=""/>
+    </objectFactory>
+
+    <environments default="produce">
+        <environment id="development">
+            <transactionManager type="JDBC"/> <!--事务管理类型-->
+            <dataSource type="POOLED">
+                <property name="username" value="sa123"/>
+                <property name="password" value="xxgyy_sa@2019"/>
+                <property name="driver" value="net.sourceforge.jtds.jdbc.Driver"/>
+                <property name="url" value="jdbc\:sqlserver\://192.168.10.3\:11433;DatabaseName\=chisdb_xxgyy"/>
+            </dataSource>
+        </environment>
+
+        <environment id="produce">
+            <transactionManager type="JDBC"/> <!--事务管理类型-->
+            <dataSource type="POOLED">
+                <property name="username" value="sa123"/>
+                <property name="password" value="xxgyy_sa@2019"/>
+                <property name="driver" value="net.sourceforge.jtds.jdbc.Driver"/>
+                <property name="url" value="jdbc\:sqlserver\://192.168.10.3\:11433;DatabaseName\=chisdb_xxgyy"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!--<mappers>
+        <mapper resource="userMapper.xml"/>
+    </mappers>-->
+
+</configuration>
