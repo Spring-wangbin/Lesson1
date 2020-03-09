@@ -4,7 +4,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace：命名空间，用于隔离sql，还有一个很重要的作用，后面会讲 -->
 <mapper namespace="com.test.mybatis.dao.UserMapper">
+
+    <resultMap id="userList" type="com.test.mybatis.entity.User">
+        <result property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="sex" column="sex"/>
+        <result property="age" column="age"/>
+    </resultMap>
+
     <select id="findUserById" parameterType="Integer" resultType="com.test.mybatis.entity.User">
         select * from t_user where id = #{id}
+    </select>
+
+    <select id="findAllUser" resultMap="userList">
+        select * from t_user
     </select>
 </mapper>
