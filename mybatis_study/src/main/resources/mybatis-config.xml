@@ -14,16 +14,16 @@
     </settings>
 
     <typeAliases>
-        <typeAlias type="com.test.mybatis.dao.UserDao" alias="User"/>
+        <typeAlias type="com.test.mybatis.entity.User" alias="User"/>
     </typeAliases>
     
-    <typeHandlers>
+    <!--<typeHandlers>
         <package name=""/>
     </typeHandlers>
 
     <objectFactory type="">
         <property name="" value=""/>
-    </objectFactory>
+    </objectFactory>-->
 
     <environments default="produce">
         <environment id="development">
@@ -39,16 +39,16 @@
         <environment id="produce">
             <transactionManager type="JDBC"/> <!--事务管理类型-->
             <dataSource type="POOLED">
-                <property name="username" value="sa123"/>
-                <property name="password" value="xxgyy_sa@2019"/>
-                <property name="driver" value="net.sourceforge.jtds.jdbc.Driver"/>
-                <property name="url" value="jdbc\:sqlserver\://192.168.10.3\:11433;DatabaseName\=chisdb_xxgyy"/>
+                <property name="username" value="sa"/>
+                <property name="password" value="wangbin"/>
+                <property name="driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+                <property name="url" value="jdbc:sqlserver://localhost:1433;DatabaseName=master"/>
             </dataSource>
         </environment>
     </environments>
 
-    <!--<mappers>
+    <mappers>
         <mapper resource="userMapper.xml"/>
-    </mappers>-->
+    </mappers>
 
 </configuration>

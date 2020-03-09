@@ -1,0 +1,4 @@
+1.mybatis-config.xml为mybatis的全局配置文件
+    mapper.xml文件为sql映射文件，在mybatis-config.xml中配置注册（mappers标签）
+    注意：初始化配置文件的本质就是创建Configuration对象，将解析的xml数据封装到Configuration内部的属性中
+2.

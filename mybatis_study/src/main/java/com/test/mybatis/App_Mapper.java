@@ -1,5 +1,6 @@
 package com.test.mybatis;
 
+import com.test.mybatis.dao.UserMapper;
 import com.test.mybatis.entity.User;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -13,7 +14,7 @@ import java.io.InputStream;
  * Hello world!
  *
  */
-public class App 
+public class App_Mapper
 {
     public static void main( String[] args ) throws IOException {
         String resources = "mybatis-config.xml";
@@ -26,7 +27,9 @@ public class App
 
         System.out.println(session);
 
-        User u = session.selectOne("com.test.mybatis.dao.UserMapper.findUserById",1);
+        UserMapper mapper = session.getMapper(UserMapper.class);
+
+        User u = mapper.findUserById(1);
 
         System.out.println(u);
 
