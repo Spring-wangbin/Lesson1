@@ -1,0 +1,5 @@
+1.Spring是分层的Java SE/EE full-stack轻量级开源框架，以IOC、AOP为内核，取代了EJB低效的开发模式。
+    分为三层：表现层（web）、业务逻辑层（service）、持久层（dao）
+
+2.Spring的OC思想
+    Spring提供了两种IOC容器：BeanFactory和ApplicationContext
