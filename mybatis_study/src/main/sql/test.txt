@@ -39,4 +39,7 @@
 7.Mapper.xml文件基础标签讲解：
     <mapper>元素中的属性 namespace 所对应的是一个接口的全限定名，于是 MyBatis 上下文就可以通过它找到对应的接口。
     <select>元素表明是一条查询语句，属性id标识了这条SQL，属性 parameterType="long"说明传递给SQL的是一个long型的参数，
-    resultType="User"表示返回的是一个User类型的返回值。User是之前mybatis-config.xml中配置的别名，指代：com.test.mybatis.entity.User
+        resultType="User"表示返回的是一个User类型的返回值。User是之前mybatis-config.xml中配置的别名，指代：com.test.mybatis.entity.User
+        resultType="java.util.HashMap"表示返回Map集合
+        resultMap属性与resultMap元素标签一起使用
+        resultType和resultMap属性，都可以返回List集合或者单个对象

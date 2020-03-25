@@ -30,7 +30,7 @@
         <property name="" value=""/>
     </objectFactory>-->
 
-    <environments default="development">
+    <environments default="produce">
         <environment id="development">
             <transactionManager type="JDBC"/> <!--事务管理类型-->
             <dataSource type="POOLED">

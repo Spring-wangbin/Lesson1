@@ -9,6 +9,8 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Hello world!
@@ -32,6 +34,14 @@ public class App_Mapper
         User u = mapper.findUserById(1);
 
         System.out.println(u);
+
+        Map<String,Object> u2 = mapper.getUserMap(1);
+
+        System.out.println(u2);
+
+        List<Map<String,Object>> al = mapper.getAllUserMap();
+
+        System.out.println(al);
 
         session.close();
 

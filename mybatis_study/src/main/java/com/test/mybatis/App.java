@@ -8,7 +8,9 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Hello world!
@@ -35,6 +37,12 @@ public class App
 
         System.out.println(ul);
 
+        Map<String,Object> map = new HashMap<>();
+        map.put("id",1);
+        map.put("name","wangbin");
+        User u2 = session.selectOne("com.test.mybatis.dao.UserMapper.findUserByInfo",map);
+
+        System.out.println(u2);
         session.close();
 
         is.close();

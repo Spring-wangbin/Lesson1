@@ -16,7 +16,19 @@
         select * from t_user where id = #{id}
     </select>
 
-    <select id="findAllUser" resultMap="userList">
+    <select id="getUserMap" parameterType="Integer" resultType="java.util.HashMap">
+        select * from t_user where id = #{id}
+    </select>
+
+    <select id="findAllUser" resultType="com.test.mybatis.entity.User">
         select * from t_user
+    </select>
+
+    <select id="getAllUserMap" resultType="java.util.HashMap">
+        select * from t_user
+    </select>
+
+    <select id="findUserByInfo" parameterType="Map" resultMap="userList">
+        select * from t_user where id = #{id} and username = #{name}
     </select>
 </mapper>
