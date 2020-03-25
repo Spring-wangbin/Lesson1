@@ -4,14 +4,19 @@
 <configuration>
 
     <properties>
-        <property name="aaa" value="bbb"/>
+        <property name="username" value="sa"/>
+        <property name="password" value="xxgyy_sa@2019"/>
+        <property name="driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+        <property name="url" value="jdbc:sqlserver://192.168.10.3:11433;DatabaseName=master"/>
     </properties>
+    <!--<properties resource=""/>-->
+    <!--
 
     <settings>
         <setting name="cacheEnabled" value="true"/>
         <setting name="lazyLoadingEnabled" value="false"/>
-        <!--<setting name="logImpl" value="STDOUT_LOGGING"/> &lt;!&ndash; 打印日志信息 &ndash;&gt;-->
-    </settings>
+        &lt;!&ndash;<setting name="logImpl" value="STDOUT_LOGGING"/> &lt;!&ndash; 打印日志信息 &ndash;&gt;&ndash;&gt;
+    </settings>-->
 
     <typeAliases>
         <typeAlias type="com.test.mybatis.entity.User" alias="User"/>
@@ -25,14 +30,14 @@
         <property name="" value=""/>
     </objectFactory>-->
 
-    <environments default="produce">
+    <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC"/> <!--事务管理类型-->
             <dataSource type="POOLED">
-                <property name="username" value="sa123"/>
-                <property name="password" value="xxgyy_sa@2019"/>
-                <property name="driver" value="net.sourceforge.jtds.jdbc.Driver"/>
-                <property name="url" value="jdbc\:sqlserver\://192.168.10.3\:11433;DatabaseName\=chisdb_xxgyy"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
             </dataSource>
         </environment>
 
