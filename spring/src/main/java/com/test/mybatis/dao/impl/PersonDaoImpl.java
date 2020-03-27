@@ -1,7 +1,9 @@
 package com.test.mybatis.dao.impl;
 
 import com.test.mybatis.dao.PersonDao;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class PersonDaoImpl implements PersonDao {
     @Override
     public void add() {

@@ -65,3 +65,18 @@
             <constructor-arg index="1" value="21" />
         </bean>
     基于注解Annotation装配：
+        @Component：类注解，泛化的概念，j仅仅表示一个组件（bean）
+        @Repository：用于将数据访问层（DAO层）的类标识为bean，功能与@Component相同
+        @Service：作用在业务层（Service层），功能与@Component相同
+        @Controller：作用在控制层，功能与@Component相同
+        @Autowired：对Bean的属性变量、属性的Set方法及构造函数进行标注，配合对应的注解处理器完成Bean的自动配置工作。默认按照Bean的类型进行装配
+        @Resource：作用与Autowired一样。区别：Resource默认按照Bean的名称进行装配
+            @Resource 中有两个重要属性：name 和 type。
+            Spring 将 name 属性解析为 Bean 实例名称，type 属性解析为 Bean 实例类型。如果指定 name 属性，则按实例名称进行装配；如果指定 type 属性，则按 Bean 类型进行装配。
+            如果都不指定，则先按 Bean 实例名称装配，如果不能匹配，则再按照 Bean 类型进行装配；如果都无法匹配，则抛出 NoSuchBeanDefinitionException 异常。
+        @Qualifier：与@Autowired注解配合使用，会将默认按照Bean类型装配修改为按照Bean的名称装配，Bean的实例名称由@Qualifier注解的参数指定
+    自动装配：
+        自动装配指Spring容器可以自动装配（autowire）相互协作的Bean之间的关联关系，将一个Bean注入其他Bean的Property中
+        自动装配需要配置<bean>的autowire属性。（默认情况下不使用自动装配，必须通过ref元素定义）
+
+7.Spring AOP(面向切面编程):

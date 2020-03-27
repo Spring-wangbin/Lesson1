@@ -8,11 +8,11 @@
             http://www.springframework.org/schema/context
             http://www.springframework.org/schema/context/spring-context.xsd">
     <!-- 由 Spring容器创建该类的实例对象 -->
-    <bean id="personDao" class="com.test.mybatis.dao.impl.PersonDaoImpl" />
+    <!--<bean id="personDao" class="com.test.mybatis.dao.impl.PersonDaoImpl" />-->
 
-    <bean id="personService" class="com.test.mybatis.service.impl.PersonServiceImpl">
+    <!--<bean id="personService" class="com.test.mybatis.service.impl.PersonServiceImpl">
         <property name="personDao" ref="personDao"/>
-    </bean>
+    </bean>-->
 
     <bean id="person1" class="com.test.mybatis.entity.Person">
         <property name="age" value="12"/>
