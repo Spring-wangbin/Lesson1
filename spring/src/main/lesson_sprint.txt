@@ -1,5 +1,67 @@
 1.Spring是分层的Java SE/EE full-stack轻量级开源框架，以IOC、AOP为内核，取代了EJB低效的开发模式。
     分为三层：表现层（web）、业务逻辑层（service）、持久层（dao）
 
-2.Spring的OC思想
-    Spring提供了两种IOC容器：BeanFactory和ApplicationContext
+2.Spring的IOC设计思想
+    Spring提供了两种IOC容器：BeanFactory和ApplicationContext,其中ApplicationContext是BeanFactory的子接口。
+    两者都是通过xml配置文件加载Bean的
+    两者的区别：
+        Bean的某一个属性没有注入，使用BeanFactory加载后，第一次调用getBean()方法时会抛出异常，ApplicationContext会在初始化时自检。
+        实际开发中，常用ApplicationContext
+
+3.依赖注入：
+    依赖注入（Dependency Injection，DI）和控制反转含义相同，它们是从两个角度描述的同一个概念。
+    依赖注入的两种方式：
+        属性setter注入：
+            IOC容器使用setter方法注入被依赖的实例。
+            通过调用无参构造器或无参static工厂方法实例化bean后，调用该bean的setter方法
+        构造注入：
+            IOC容器通过构造方法注入被依赖的实例，通过带参数的构造方法实现，每个参数代表一个依赖
+
+4.bean的实例化：
+    构造器实例化：
+        <bean id="person1" class="com.mengma.instance.constructor.Person1" />
+    静态工厂方式实例化：
+        public class MyBeanFactory {
+            // 创建Bean实例的静态工厂方法
+            public static Person2 createBean() {
+                return new Person2();
+            }
+        }
+        <bean id="person2" class="com.mengma.instance.static_factory.MyBeanFactory"
+                factory-method="createBean" />
+    实例工厂方式实例化：
+        public class MyBeanFactory {
+            public MyBeanFactory() {
+                System.out.println("person3工厂实例化中");
+            }
+            // 创建Bean的方法
+            public Person3 createBean() {
+                return new Person3();
+            }
+        }
+        <!-- 配置实例工厂 -->
+        <bean id="myBeanFactory" class="com.mengma.instance.factory.MyBeanFactory" />
+        <!-- factory-bean属性指定一个实例工厂，factory-method属性确定使用工厂中的哪个方法 -->
+        <bean id="person3" factory-bean="myBeanFactory" factory-method="createBean" />
+
+5.bean的作用域：
+    singleton：单例模式，在容器中只有一个实例，是Bean的默认作用域。
+    prototype：原型模式，每次通过spring容器获取bean时，容器都会创建一个新的Bean实例
+    request：一次Http请求中，容器返回同一个实例。对不同的Http请求，返回不同的实例。作用域只对当前Http Request内有效
+    session：在一次 HTTP Session 中，容器会返回该 Bean 的同一个实例。而对不同的 HTTP 请求，会返回不同的实例，该作用域仅在当前 HTTP Session 内有效
+    global Session：在一个全局的 HTTP Session 中，容器会返回该 Bean 的同一个实例。该作用域仅在使用 portlet context 时有效
+    singleton\prototype两种作用域最常用
+
+6.Bean的装配方式：
+    基于XML装配Bean：
+        <!-- 使用设值注入方式装配Person实例 -->
+        <bean id="person1" class="com.mengma.assembly.Person">
+            <property name="name" value="zhangsan" />
+            <property name="age" value="20" />
+        </bean>
+        <!-- 使用构造方法装配Person实例 -->
+        <bean id="person2" class="com.mengma.assembly.Person">
+            <constructor-arg index="0" value="lisi" />
+            <constructor-arg index="1" value="21" />
+        </bean>
+    基于注解Annotation装配：
