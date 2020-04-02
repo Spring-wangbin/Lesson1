@@ -91,3 +91,18 @@
     Weaving（植入）	指把增强代码应用到目标上，生成代理对象的过程。
     Proxy（代理）	指生成的代理对象。
     Aspect（切面）	切入点和通知的结合。
+
+8.声明式AOP
+    Spring 创建一个 AOP 代理的基本方法是使用 org.springframework.aop.framework.ProxyFactoryBean
+
+9.AspectJ 开发AOP
+    基于XML：
+        通过Spring配置文件的方式定义切面、切入点、通知，全部在<aop:config>元素中
+        spring-aspects-3.2.13.RELEASE.jar：Spring 为 AspectJ 提供的实现，在 Spring 的包中已经提供。
+        com.springsource.org.aspectj.weaver-1.6.8.RELEASE.jar：是 AspectJ 提供的规范
+    基于Annotation：
+        尽管使用 XML 配置文件可以实现 AOP 开发，但是如果所有的相关的配置都集中在配置文件中，势必会导致 XML 配置文件过于臃肿，从而给维护和升级带来一定的困难
+        AspectJ 允许使用注解定义切面、切入点和增强处理，而 Spring 框架则可以识别并根据这些注解生成 AOP 代理。
+
+10.Spring JDBCTemplate
+
