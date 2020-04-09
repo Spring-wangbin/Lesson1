@@ -1,0 +1,27 @@
+1.MVC设计模式
+    MVC 设计不仅限于 Java Web 应用，还包括许多应用，比如前端、PHP、.NET 等语言。之所以那么做的根本原因在于解耦各个模块。
+
+    MVC 是 Model、View 和 Controller 的缩写，分别代表 Web 应用程序中的 3 种职责。
+        模型：用于存储数据以及处理用户请求的业务逻辑。
+        视图：向控制器提交数据，显示模型中的数据。
+        控制器：根据视图提出的请求判断将请求和数据交给哪个模型处理，将处理后的有关结果交给哪个视图更新显示。
+
+    基于Servlet的MVC模式的具体实现：
+        模型：一个或多个JavaBean对象，用于存储数据（实体模型，JavaBean创建）和处理业务逻辑（业务模型，一般的Java类创建）
+        视图：一个或多个JSP页面，向控制器提交数据和为模型提供数据显示，JSP页面主要使用HTML标记和JavaBean标记来显示数据
+        控制器：一个或多个Servlet对象，根据视图提交的请求进行控制，即将请求转发给处理业务逻辑的JavaBean，并将结果存放到实体模型JavaBean中，输出给视图显示
+
+2.SpringMvc框架工作流程
+    Spring MVC 框架主要由 DispatcherServlet、处理器映射、控制器、视图解析器、视图组成。工作流程如下：
+        客户端请求提交到 DispatcherServlet。
+        由 DispatcherServlet 控制器寻找一个或多个 HandlerMapping，找到处理请求的 Controller。
+        DispatcherServlet 将请求提交到 Controller。
+        Controller 调用业务逻辑处理后返回 ModelAndView。
+        DispatcherServlet 寻找一个或多个 ViewResolver 视图解析器，找到 ModelAndView 指定的视图。
+        视图负责将结果显示到客户端。
+    包含 4 个 Spring MVC 接口： DispatcherServlet、HandlerMapping、Controller 和 ViewResolver
+        Spring MVC 所有的请求都经过 DispatcherServlet 来统一分发，在 DispatcherServlet 将请求分发给 Controller 之前需要借助 Spring MVC 提供的 HandlerMapping 定位到具体的 Controller。
+        HandlerMapping 接口负责完成客户请求到 Controller 映射。
+        Controller 接口将处理用户请求，这和 Java Servlet 扮演的角色是一致的。一旦 Controller 处理完用户请求，将返回 ModelAndView 对象给 DispatcherServlet 前端控制器，ModelAndView 中包含了模型（Model）和视图（View）
+        从宏观角度考虑，DispatcherServlet 是整个 Web 应用的控制器；从微观考虑，Controller 是单个 Http 请求处理过程中的控制器，而 ModelAndView 是 Http 请求过程中返回的模型（Model）和视图（View）。
+        ViewResolver 接口（视图解析器）在 Web 应用中负责查找 View 对象，从而将相应结果渲染给客户
