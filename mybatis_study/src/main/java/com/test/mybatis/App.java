@@ -41,10 +41,13 @@ public class App
         map.put("id",1);
         map.put("name","wangbin");
         User u2 = session.selectOne("com.test.mybatis.dao.UserMapper.findUserByInfo",map);
-
         System.out.println(u2);
-        session.close();
 
+        Map<String,String> a = session.selectOne("com.test.mybatis.dao.UserMapper.execSql","select 1 as cnt");
+        System.out.println(a);
+
+
+        session.close();
         is.close();
     }
 }

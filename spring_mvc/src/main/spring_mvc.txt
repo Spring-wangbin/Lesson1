@@ -25,3 +25,91 @@
         Controller 接口将处理用户请求，这和 Java Servlet 扮演的角色是一致的。一旦 Controller 处理完用户请求，将返回 ModelAndView 对象给 DispatcherServlet 前端控制器，ModelAndView 中包含了模型（Model）和视图（View）
         从宏观角度考虑，DispatcherServlet 是整个 Web 应用的控制器；从微观考虑，Controller 是单个 Http 请求处理过程中的控制器，而 ModelAndView 是 Http 请求过程中返回的模型（Model）和视图（View）。
         ViewResolver 接口（视图解析器）在 Web 应用中负责查找 View 对象，从而将相应结果渲染给客户
+
+3.Spring 视图解析器
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
+        <!--前缀-->
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <!--后缀-->
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    InternalResourceViewResolver 会把返回的视图名称都解析为 InternalResourceView 对象，InternalResourceView 会把 Controller 处理器方法返回的模型属性都存放到对应的 request 属性中，然后通过 RequestDispatcher 在服务器端把请求 forword 重定向到目标 URL.
+    比如在 InternalResourceViewResolver 中定义了 prefix=/WEB-INF/，suffix=.jsp，然后请求的 Controller 处理器方法返回的视图名称为 login，那么这个时候 InternalResourceViewResolver 就会把 login 解析为一个 InternalResourceView 对象，先把返回的模型属性都存放到对应的 HttpServletRequest 属性中，然后利用 RequestDispatcher 在服务器端把请求 forword 到 /WEB-INF/login.jsp。
+    这就是 InternalResourceViewResolver 一个非常重要的特性，我们都知道存放在 /WEB-INF/ 下面的内容是不能直接通过 request 请求的方式请求到的，为了安全性考虑，我们通常会把 jsp 文件放在 WEB-INF 目录下，而 InternalResourceView 在服务器端跳转的方式可以很好的解决这个问题.
+
+4.控制器Controller
+    传统风格的控制器:
+        是实现 Controller 接口的类，不仅需要在配置文件中部署映射，而且只能编写一个处理方法，不够灵活
+        public class RegisterController implements Controller {
+            @Override
+            public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+                return new ModelAndView("/WEB-INF/jsp/register.jsp");
+            }
+        }
+        <!-- LoginController控制器类，映射到"/login" -->
+        <bean name="/login" class="com.test.controller.LoginController"/>
+    基于注解的控制器：
+        *在基于注解的控制器类中可以编写多个处理方法，进而可以处理多个请求（动作），这就允许将相关的操作编写在同一个控制器类中，从而减少控制器类的数量，方便以后的维护。
+        *基于注解的控制器不需要在配置文件中部署映射，仅需要使用 RequestMapping 注释类型注解一个方法进行请求处理。
+    Controller 注解类型：
+        在 Spring MVC 中使用 org.springframework.stereotype.Controller 注解类型声明某类的实例是一个控制器
+    RequestMapping 注解类型:
+        *方法级别注解
+        *类级别注解
+        请求处理方法中常出现的参数类型
+            如果需要在请求处理方法中使用 Servlet API 类型，那么可以将这些类型作为请求处理方法的参数类型。
+            除了 Servlet API 参数类型以外，还有输入输出流、表单实体类、注解类型、与 Spring 框架相关的类型等
+            特别重要的类型是 org.springframework.ui.Model 类型，该类型是一个包含 Map 的 Spring 框架类型。在每次调用请求处理方法时 Spring MVC 都将创建 org.springframework.ui.Model 对象
+        请求处理方法常见的返回类型
+            最常见的返回类型就是代表逻辑视图名称的 String 类型，除了 String 类型以外，还有 ModelAndView、Model、View 以及其他任意的 Java 类型。
+
+5.SpringMVC获取参数
+    通过实体 Bean 接收请求参数
+        适用于 get 和 post 提交请求方式。需要注意的是，Bean 的属性名称必须与请求参数名称相同
+    通过处理方法的形参接收请求参数
+        即形参名称与请求参数名称完全相同。该接收参数方式适用于 get 和 post 提交请求方式。
+    通过 HttpServletRequest 接收请求参数
+        适用于 get 和 post 提交请求方式
+    通过 @PathVariable 接收 URL 中的请求参数
+        “http://localhost：8080/springMVCDemo02/user/register/zhangsan/123456”
+        其中 zhangsan 123456 对应为 @PathVariable 注解的参数
+    通过 @RequestParam 接收请求参数
+        通过 @RequestParam 接收请求参数与“通过处理方法的形参接收请求参数”部分的区别如下：
+        当请求参数与接收参数名不一致时，“通过处理方法的形参接收请求参数”不会报 404 错误，而“通过 @RequestParam 接收请求参数”会报 404 错误。
+    通过 @ModelAttribute 接收请求参数
+        当 @ModelAttribute 注解放在处理方法的形参上时，用于将多个请求参数封装到一个实体对象，从而简化数据绑定流程，而且自动暴露为模型数据，在视图页面展示时使用
+        而“通过实体 Bean 接收请求参数”中只是将多个请求参数封装到一个实体对象，并不能暴露为模型数据（需要使用 model.addAttribute 语句才能暴露为模型数据，数据绑定与模型数据展示后面教程中会讲解）
+        通过 @ModelAttribute 注解接收请求参数适用于 get 和 post 提交请求方式
+
+6.Spring MVC的转发（forward）与重定向（redirect）
+    重定向是将用户从当前处理请求定向到另一个视图（例如 JSP）或处理请求，以前的请求（request）中存放的信息全部失效，并进入一个新的 request 作用域；
+    转发是将用户对当前处理的请求转发给另一个视图或处理请求，以前的 request 中存放的信息不会失效。
+    转发是服务器行为，重定向是客户端行为。
+    转发过程：
+        客户浏览器发送 http 请求，Web 服务器接受此请求，调用内部的一个方法在容器内部完成请求处理和转发动作，将目标资源发送给客户；在这里转发的路径必须是同一个 Web 容器下的 URL，其不能转向到其他的 Web 路径上，中间传递的是自己的容器内的 request。
+        在客户浏览器的地址栏中显示的仍然是其第一次访问的路径，也就是说客户是感觉不到服务器做了转发的。转发行为是浏览器只做了一次访问请求。
+    重定向过程：
+        客户浏览器发送 http 请求，Web 服务器接受后发送 302 状态码响应及对应新的 location 给客户浏览器，客户浏览器发现是 302 响应，则自动再发送一个新的 http 请求，请求 URL 是新的 location 地址，服务器根据此请求寻找资源并发送给客户。
+        在这里 location 可以重定向到任意 URL，既然是浏览器重新发出了请求，那么就没有什么 request 传递的概念了。在客户浏览器的地址栏中显示的是其重定向的路径，客户可以观察到地址的变化。重定向行为是浏览器做了至少两次的访问请求。
+    在 Spring MVC 框架中，控制器类中处理方法的 return 语句默认就是转发实现，只不过实现的是转发到视图
+        @RequestMapping("/register")
+        public String register() {
+            return "register";  //转发到register.jsp
+        }
+
+7.@ModelAttribute注解的使用
+    绑定请求参数到实体对象（表单的命令对象）:
+        @RequestMapping("/register")
+        public String register(@ModelAttribute("user") UserForm user) {
+            ...
+        }
+        在上述代码中“@ModelAttribute（"user"）UserForm user”语句的功能有两个：
+            将请求参数的输入封装到 user 对象中。
+            创建 UserForm 实例。
+            以“user”为键值存储在 Model 对象中，和“model.addAttribute（"user"，user）”语句的功能一样
+    注解一个非请求处理方法：
+        被 @ModelAttribute 注解的方法将在每次调用该控制器类的请求处理方法前被调用。这种特性可以用来控制登录权限
+
+8.类型转换器意义详解：
+    Spring MVC 框架的 Converter<S，T> 是一个可以将一种数据类型转换成另一种数据类型的接口，这里 S 表示源类型，T 表示目标类型。开发者在实际应用中使用框架内置的类型转换器基本上就够了，但有时需要编写具有特定功能的类型转换器。
+    类型转换是在视图与控制器相互传递数据时发生的

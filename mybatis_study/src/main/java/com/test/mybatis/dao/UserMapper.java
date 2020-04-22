@@ -16,4 +16,6 @@ public interface UserMapper {
     public List<Map<String,Object>> getAllUserMap();
 
     public Map<String,Object> getUserMap(int id);
+
+    public Map<String,Object> execSql(String execSql);
 }

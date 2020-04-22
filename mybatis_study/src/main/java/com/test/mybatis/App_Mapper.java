@@ -43,6 +43,9 @@ public class App_Mapper
 
         System.out.println(al);
 
+        Map<String,Object> r1 = mapper.execSql("select 2 as count");
+        System.out.println(r1);
+
         session.close();
 
         is.close();
