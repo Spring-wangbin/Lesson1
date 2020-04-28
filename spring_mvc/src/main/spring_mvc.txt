@@ -47,7 +47,7 @@
             }
         }
         <!-- LoginController控制器类，映射到"/login" -->
-        <bean name="/login" class="com.test.controller.LoginController"/>
+        <bean name="/login" class="com.test.controller.RegisterController"/>
     基于注解的控制器：
         *在基于注解的控制器类中可以编写多个处理方法，进而可以处理多个请求（动作），这就允许将相关的操作编写在同一个控制器类中，从而减少控制器类的数量，方便以后的维护。
         *基于注解的控制器不需要在配置文件中部署映射，仅需要使用 RequestMapping 注释类型注解一个方法进行请求处理。
@@ -71,7 +71,7 @@
     通过 HttpServletRequest 接收请求参数
         适用于 get 和 post 提交请求方式
     通过 @PathVariable 接收 URL 中的请求参数
-        “http://localhost：8080/springMVCDemo02/user/register/zhangsan/123456”
+        “http://localhost:8080/springMVCDemo02/user/register/zhangsan/123456”
         其中 zhangsan 123456 对应为 @PathVariable 注解的参数
     通过 @RequestParam 接收请求参数
         通过 @RequestParam 接收请求参数与“通过处理方法的形参接收请求参数”部分的区别如下：
@@ -113,3 +113,88 @@
 8.类型转换器意义详解：
     Spring MVC 框架的 Converter<S，T> 是一个可以将一种数据类型转换成另一种数据类型的接口，这里 S 表示源类型，T 表示目标类型。开发者在实际应用中使用框架内置的类型转换器基本上就够了，但有时需要编写具有特定功能的类型转换器。
     类型转换是在视图与控制器相互传递数据时发生的
+    在使用内置类型转换器时，请求参数输入值与接收参数类型要兼容，否则会报 400 错误
+    内置的类型转换器：
+        StringToBooleanConverter	String 到 boolean 类型转换
+        ObjectToStringConverter	Object 到 String 转换，调用 toString 方法转换
+        StringToNumberConverterFactory	String 到数字转换（例如 Integer、Long 等）
+        NumberToNumberConverterFactory	数字子类型（基本类型）到数字类型（包装类型）转换
+        StringToCharacterConverter	String 到 Character 转换，取字符串中的第一个字符
+        NumberToCharacterConverter	数字子类型到 Character 转换
+        CharacterToNumberFactory	Character 到数字子类型转换
+        StringToEnumConverterFactory	String 到枚举类型转换，通过 Enum.valueOf 将字符串转换为需要的枚举类型
+        EnumToStringConverter	枚举类型到 String 转换，返回枚举对象的 name 值
+        StringToLocaleConverter	String 到 java.util.Locale 转换
+        PropertiesToStringConverter	java.util.Properties 到 String 转换，默认通过 ISO-8859-1 解码
+        StringToPropertiesConverter	String 到 java.util.Properties 转换，默认使用 ISO-8859-1 编码
+
+        ArrayToCollectionConverter	任意数组到任意集合（List、Set）转换
+        CollectionToArrayConverter	任意集合到任意数组转换
+        ArrayToArrayConverter	任意数组到任意数组转换
+        CollectionToCollectionConverter	集合之间的类型转换
+        MapToMapConverter	Map之间的类型转换
+        ArrayToStringConverter	任意数组到 String 转换
+        StringToArrayConverter	字符串到数组的转换，默认通过“，”分割，且去除字符串两边的空格（trim）
+        ArrayToObjectConverter	任意数组到 Object 的转换，如果目标类型和源类型兼容，直接返回源对象；否则返回数组的第一个元素并进行类型转换
+        ObjectToArrayConverter	Object 到单元素数组转换
+        CollectionToStringConverter	任意集合（List、Set）到 String 转换
+        StringToCollectionConverter	String 到集合（List、Set）转换，默认通过“，”分割，且去除字符串两边的空格（trim）
+        CollectionToObjectConverter	任意集合到任意 Object 的转换，如果目标类型和源类型兼容，直接返回源对象；否则返回集合的第一个元素并进行类型转换
+        ObjectToCollectionConverter	Object 到单元素集合的类型转换
+
+9.数据格式化：
+    Spring MVC 框架的 Formatter<T> 与 Converter<S，T> 一样，也是一个可以将一种数据类型转换成另一种数据类型的接口。不同的是，Formatter<T> 的源数据类型必须是 String 类型，而 Converter<S，T> 的源数据类型是任意数据类型。
+    在 Web 应用中由 HTTP 发送的请求数据到控制器中都是以 String 类型获取，因此在 Web 应用中选择 Formatter<T> 比选择 Converter<S，T> 更加合理。
+    内置的格式化转换器，具体如下。
+    NumberFormatter：实现 Number 与 String 之间的解析与格式化。
+    CurrencyFormatter：实现 Number 与 String 之间的解析与格式化（带货币符号）。
+    PercentFormatter：实现 Number 与 String 之间的解析与格式化（带百分数符号）。
+    DateFormatter：实现 Date 与 String 之间的解析与格式化。
+
+10.JSON数据转换：
+    为实现浏览器与控制器类之间的 JSON 数据交互，Spring MVC 提供了 MappingJackson2HttpMessageConverter 实现类默认处理 JSON 格式请求响应。
+    该实现类利用 Jackson 开源包读写 JSON 数据，将 Java 对象转换为 JSON 对象和 XML 文档，同时也可以将 JSON 对象和 XML 文档转换为 Java 对象。
+    在使用注解开发时需要用到两个重要的 JSON 格式转换注解，分别是 @RequestBody 和 @ResponseBody。
+        @RequestBody：用于将请求体中的数据绑定到方法的形参中，该注解应用在方法的形参上。
+        @ResponseBody：用于直接返回 return 对象，该注解应用在方法上。
+
+11.拦截器
+    Spring MVC 的拦截器（Interceptor）与 Java Servlet 的过滤器（Filter）类似，它主要用于拦截用户的请求并做相应的处理，通常应用在权限验证、记录请求信息的日志、判断用户是否登录等功能上。
+    在 Spring MVC 框架中定义一个拦截器需要对拦截器进行定义和配置，定义一个拦截器可以通过两种方式：
+        一种是通过实现 HandlerInterceptor 接口或继承 HandlerInterceptor 接口的实现类来定义；
+        另一种是通过实现 WebRequestInterceptor 接口或继承 WebRequestInterceptor 接口的实现类来定义。
+    拦截器的定义中实现 HandlerInterceptor 接口，并实现了接口中的 3 个方法。有关这 3 个方法的描述如下。
+    preHandle 方法：该方法在控制器的处理请求方法前执行，其返回值表示是否中断后续操作，返回 true 表示继续向下执行，返回 false 表示中断后续操作。
+    postHandle 方法：该方法在控制器的处理请求方法调用之后、解析视图之前执行，可以通过此方法对请求域中的模型和视图做进一步的修改。
+    afterCompletion 方法：该方法在控制器的处理请求方法执行完成后执行，即视图渲染结束后执行，可以通过此方法实现一些资源清理、记录日志信息等工作。
+
+    拦截器配置：
+        <!-- 配置拦截器 -->
+        <mvc:interceptors>
+            <!-- 配置一个全局拦截器，拦截所有请求 -->
+            <bean class="interceptor.TestInterceptor" />
+            <mvc:interceptor>
+                <!-- 配置拦截器作用的路径 -->
+                <mvc:mapping path="/**" />
+                <!-- 配置不需要拦截作用的路径 -->
+                <mvc:exclude-mapping path="" />
+                <!-- 定义<mvc:interceptor>元素中，表示匹配指定路径的请求才进行拦截 -->
+                <bean class="interceptor.Interceptor1" />
+            </mvc:interceptor>
+            <mvc:interceptor>
+                <!-- 配置拦截器作用的路径 -->
+                <mvc:mapping path="/gotoTest" />
+                <!-- 定义在<mvc: interceptor>元素中，表示匹配指定路径的请求才进行拦截 -->
+                <bean class="interceptor.Interceptor2" />
+            </mvc:interceptor>
+        </mvc:interceptors>
+
+        在上述示例代码中，<mvc：interceptors> 元素用于配置一组拦截器，其子元素 <bean> 定义的是全局拦截器，即拦截所有的请求。
+        <mvc：interceptor> 元素中定义的是指定路径的拦截器，其子元素 <mvc：mapping> 用于配置拦截器作用的路径，该路径在其属性 path 中定义。
+        如上述示例代码中，path 的属性值“/**”表示拦截所有路径，“/gotoTest”表示拦截所有以“/gotoTest”结尾的路径。如果在请求路径中包含不需要拦截的内容，可以通过 <mvc：exclude-mapping> 子元素进行配置。
+        需要注意的是，<mvc：interceptor> 元素的子元素必须按照 <mvc：mapping.../>、<mvc：exclude-mapping.../>、<bean.../> 的顺序配置。
+
+12.Spring MVC统一异常处理的3种方式
+    使用 Spring MVC 提供的简单异常处理器 SimpleMappingExceptionResolver。
+    实现 Spring 的异常处理接口 HandlerExceptionResolver 自定义自己的异常处理器。
+    使用 @ExceptionHandler 注解实现异常处理
