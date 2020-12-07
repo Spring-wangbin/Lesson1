@@ -46,7 +46,6 @@ public class App
         Map<String,String> a = session.selectOne("com.test.mybatis.dao.UserMapper.execSql","select 1 as cnt");
         System.out.println(a);
 
-
         session.close();
         is.close();
     }

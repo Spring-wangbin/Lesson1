@@ -46,6 +46,13 @@ public class App_Mapper
         Map<String,Object> r1 = mapper.execSql("select 2 as count");
         System.out.println(r1);
 
+        User user = new User();
+        user.setId(2);
+        user.setAge(17);
+        user.setSex("fmale");
+        mapper.insertUser(user);
+
+        session.commit();
         session.close();
 
         is.close();

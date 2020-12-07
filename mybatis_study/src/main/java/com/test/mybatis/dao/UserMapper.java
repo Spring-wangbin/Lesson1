@@ -18,4 +18,6 @@ public interface UserMapper {
     public Map<String,Object> getUserMap(int id);
 
     public Map<String,Object> execSql(String execSql);
+
+    public void insertUser(User user);
 }

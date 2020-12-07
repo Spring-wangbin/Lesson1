@@ -1,2 +1,6 @@
 # Project exclude paths
 /mybatis_study/target/
+/spring/target/
+/spring_mvc/target
+/springMVCDemo02/target
+/.idea

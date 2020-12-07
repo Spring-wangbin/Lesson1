@@ -7,12 +7,12 @@
 
     <resultMap id="userList" type="User">
         <result property="id" column="id"/>
-        <result property="username" column="username"/>
         <result property="sex" column="sex"/>
         <result property="age" column="age"/>
+        <result property="user_name" column="username"/>
     </resultMap>
 
-    <select id="findUserById" parameterType="Integer" resultType="com.test.mybatis.entity.User">
+    <select id="findUserById" parameterType="Integer" resultMap="userList">
         select * from t_user where id = #{id}
     </select>
 
@@ -35,4 +35,14 @@
     <select id="execSql" parameterType="String" resultType="java.util.HashMap">
         ${sadf}
     </select>
+
+    <insert id="insertUser" parameterType="User">
+        INSERT INTO t_user ( username, age, sex)
+            VALUES
+            (
+
+            #{username},
+            #{age},
+            #{sex})
+    </insert>
 </mapper>
