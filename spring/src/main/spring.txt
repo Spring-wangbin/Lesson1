@@ -65,7 +65,7 @@
             <constructor-arg index="1" value="21" />
         </bean>
     基于注解Annotation装配：
-        @Component：类注解，泛化的概念，j仅仅表示一个组件（bean）
+        @Component：类注解，泛化的概念，仅仅表示一个组件（bean）
         @Repository：用于将数据访问层（DAO层）的类标识为bean，功能与@Component相同
         @Service：作用在业务层（Service层），功能与@Component相同
         @Controller：作用在控制层，功能与@Component相同

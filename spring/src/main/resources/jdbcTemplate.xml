@@ -23,7 +23,7 @@
     </bean>
 
     <!--配置注入类-->
-    <bean id="xx" class="xxx">
+    <!--<bean id="xx" class="xxx">
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
-    </bean>
+    </bean>-->
 </beans>
