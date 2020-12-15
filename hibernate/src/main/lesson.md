@@ -160,3 +160,11 @@
     + 非严格读写（Nonstrict-read-write）：不保证缓存与数据库中数据的一致性，提供 Read Uncommitted 事务隔离级别，对于极少被修改，而且允许脏读的数据，可以采用这种策略。
     + 事务型（Transactional）：仅在受管理环境下使用，它提供了 Repeatable Read 事务隔离级别。对于经常读但是很少被修改的数据，可以采用这种隔离类型，因为它可以防止脏读和不可重复读。
     + 二级缓存中存储的都是对象的散装数据，它们会重新 new 出一个新的对象。
+17. Spring 整合 Hibernate 
+    + HibernateTemplate
+        - HibernateTemplate 是 Spring 的模板工具类之一，它只需要获得一个 SessionFactory 就可以执行持久化操作。
+    + HibernateDaoSupport
+        - HibernateDaoSupport 是 Spring 为实现 DAO 组件提供的一个工具类，它主要提供了两个方法以简化 DAO 的实现，具体如下。
+        - Public final HibernateTemplate getHibernateTemplate()
+        - Public final void setSessionFactory(SessionFactory sessionFactory)
+        - 其中，getHibernateTemplate() 方法用于返回一个 HibernateTemplate 对象，一旦获得了 HibernateTemplate 对象，剩下的 DAO 实现将由该对象完成，而 setSessionFactory() 方法可用于接收 Spring 的依赖注入。

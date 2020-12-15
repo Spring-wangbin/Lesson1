@@ -8,6 +8,7 @@ public class App {
     public static void main(String[] args) {
         ApplicationContext ac = new ClassPathXmlApplicationContext("aspectj_annotation.xml");
         CustomerDao dao = (CustomerDao) ac.getBean("customerDao");
+        System.out.println(dao);
         dao.add();
     }
 }

@@ -40,6 +40,6 @@
         <!--通知增强-->
         <property name="interceptorNames" value="myAspect"/>
         <!--如何生成代理，true:使用cglib; false :使用jdk动态代理-->
-        <property name="proxyTargetClass" value="true"/>
+        <property name="proxyTargetClass" value="false"/>
     </bean>
 </beans>
